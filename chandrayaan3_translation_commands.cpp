@@ -7,6 +7,10 @@ class SpaceCraft
 public:
     void forward(int &x, int &y, int &z, char &dir, char com)
     {
+        // for moving spacecraft in forward direction with respect to current facing direction of spacecraft
+        // dir : current direction
+        // com : current given command
+        
         if (dir == 'N')
             y++;
         else if (dir == 'S')
@@ -23,6 +27,10 @@ public:
 
     void backward(int &x, int &y, int &z, char &dir, char com)
     {
+        // for moving spacecraft in backward direction with respect to current facing direction of spacecraft
+        // dir : current direction
+        // com : current given command
+        
         if (dir == 'N')
             y--;
         else if (dir == 'S')
@@ -37,6 +45,61 @@ public:
             z++;
     }
 
+    char left(int &x, int &y, int &z, char &dir, char com, char &tempdir)
+    {
+        // for changing direction of spacecraft towards left from current facing direction of spacecraft
+        // dir : current direction
+        // com : current given command
+        // tempdir : stores facing direction of spacecraft
+        
+        if (dir == 'N')
+            dir = 'W';
+        else if (dir == 'W')
+            dir = 'S';
+        else if (dir == 'S')
+            dir = 'E';
+        else if (dir == 'E')
+            dir = 'N';
+        else if (dir == 'U')
+        {
+            dir = left(x, y, z, tempdir, com, tempdir);
+            tempdir = dir;
+        }
+        else
+        {
+            dir = left(x, y, z, tempdir, com, tempdir);
+            tempdir = dir;
+        }
+        return dir;
+    }
+    char right(int &x, int &y, int &z, char &dir, char com, char &tempdir)
+    {
+        // for changing direction of spacecraft towards right from current facing direction of spacecraft
+        // dir : current direction
+        // com : current given command
+        // tempdir : stores facing direction of spacecraft
+
+        if (dir == 'N')
+            dir = 'E';
+        else if (dir == 'W')
+            dir = 'N';
+        else if (dir == 'S')
+            dir = 'W';
+        else if (dir == 'E')
+            dir = 'S';
+        else if (dir == 'U')
+        {
+            dir = right(x, y, z, tempdir, com, tempdir);
+            tempdir = dir;
+        }
+        else
+        {
+            dir = right(x, y, z, tempdir, com, tempdir);
+            tempdir = dir;
+        }
+        return dir;
+    }
+   
 };
 
 int main()
@@ -79,7 +142,11 @@ int main()
             chandrayan.forward(initialX, initialY, initialZ, initialDirection, command[i]);
         else if (command[i] == 'b')
             chandrayan.backward(initialX, initialY, initialZ, initialDirection, command[i]);
-       
+        else if (command[i] == 'l')
+            chandrayan.left(initialX, initialY, initialZ, initialDirection, command[i], tempdir);
+        else if (command[i] == 'r')
+            chandrayan.right(initialX, initialY, initialZ, initialDirection, command[i], tempdir);
+     
     }
 
     cout << "Final position will be : " << initialX << " " << initialY << " " << initialZ << endl;
