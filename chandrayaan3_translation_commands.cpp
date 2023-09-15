@@ -99,12 +99,35 @@ public:
         }
         return dir;
     }
+    void up(int &x, int &y, int &z, char &dir, char com, char &tempdir)
+    {
+        // for changing direction of spacecraft towards upside from current facing direction of spacecraft
+        // dir : current direction
+        // com : current given command
+        // tempdir : stores facing direction of spacecraft
+        tempdir = dir;
+
+        if (dir == 'N' || dir == 'S' || dir == 'E' || dir == 'W')
+            dir = 'U';
+    }
+    void down(int &x, int &y, int &z, char &dir, char com, char &tempdir)
+    {
+        // for changing direction of spacecraft towards downside from current facing direction of spacecraft
+        // dir : current direction
+        // com : current given command
+        // tempdir : stores facing direction of spacecraft
+        tempdir = dir;
+
+        if (dir == 'N' || dir == 'S' || dir == 'E' || dir == 'W')
+            dir = 'D';
+    }
    
 };
 
 int main()
 {
 
+    
     int initialX, initialY, initialZ;
     char initialDirection;
 
@@ -146,7 +169,10 @@ int main()
             chandrayan.left(initialX, initialY, initialZ, initialDirection, command[i], tempdir);
         else if (command[i] == 'r')
             chandrayan.right(initialX, initialY, initialZ, initialDirection, command[i], tempdir);
-     
+        else if (command[i] == 'u')
+            chandrayan.up(initialX, initialY, initialZ, initialDirection, command[i], tempdir);
+        else
+            chandrayan.down(initialX, initialY, initialZ, initialDirection, command[i], tempdir);
     }
 
     cout << "Final position will be : " << initialX << " " << initialY << " " << initialZ << endl;
